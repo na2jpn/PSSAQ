@@ -1,0 +1,12 @@
+PSSAQ project materials: see the PS Ham-ware / AKIHABARA-GIKEN common licence in LICENSE.md.
+The common licence does not replace the licences of third-party components.
+
+Third-party notices to verify when creating public releases:
+Python: PSF License
+Qt/PySide6: LGPL v3 / applicable Qt module license and exceptions
+NumPy: BSD 3-Clause
+SciPy: BSD 3-Clause
+sounddevice: MIT, underlying PortAudio MIT-style
+PyInstaller: GPL with bootloader exception
+Do not distribute publicly with this summary alone: include actual bundled license texts,
+versions, and LGPL compliance arrangements in the release.
