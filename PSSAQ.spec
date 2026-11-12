@@ -11,7 +11,7 @@ scipy_data, scipy_bins, scipy_hidden = collect_all(
     filter_submodules=lambda name: not {'tests', 'testing'}.intersection(name.split('.')),
     exclude_datas=['**/tests/**', '**/testing/**'])
 datas = scipy_data + [(str(root / 'assets'), 'assets'), (str(root / 'language'), 'language'),
-                      (str(root / 'LICENSE.md'), '.')]
+                      (str(root / 'LICENSE.md'), '.'), (str(root / 'LICENSING.md'), '.')]
 for package in ('numpy', 'scipy', 'PySide6', 'sounddevice'):
     datas += copy_metadata(package)
 

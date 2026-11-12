@@ -62,7 +62,6 @@
     "フォルダー形式のEXEには対応していません。正式な1ファイル版ZIPを選んでください。": "Folder-based builds are not supported. Select the official one-file ZIP.",
     "PSSAQ.exeが1つだけ含まれる配布ZIPを選んでください。": "Select a release ZIP containing exactly one PSSAQ.exe.",
     "Windows EXE形式ではありません。": "This is not a Windows EXE.",
-    "PSSAQは、H. Tanaka（JH1HST）が個人的に、世界遺産のヴァールベリ無線局（SAQ）の超長波17.2 kHzの電波（モールス）を受信することに挑戦する際に、作成したソフトウェアです。": "PSSAQ was created by H. Tanaka (JH1HST) for a personal attempt to receive 17.2 kHz VLF Morse transmissions from the World Heritage Varberg Radio Station (SAQ).",
     "世界遺産のヴァールベリ無線局（SAQ）について": "About the World Heritage Varberg Radio Station (SAQ)",
     "スウェーデン・グリメトンのヴァールベリ無線局は、1920年代に建設された長波無線通信施設で、アレキサンダーソン式高周波発電機と巨大なアンテナ施設が保存されています。2004年にユネスコ世界遺産へ登録され、記念送信では17.2 kHzのモールス信号を発信します。": "Varberg Radio Station at Grimeton, Sweden, was built in the 1920s. Its Alexanderson alternator and large antenna system are preserved. Listed as a UNESCO World Heritage Site in 2004, the station transmits Morse signals on 17.2 kHz during commemorative broadcasts.",
     "SAQのイラストについて": "About the SAQ illustration",
@@ -81,7 +80,9 @@
     "選択した受信周波数を中心とする帯域幅（全幅）。受信音とデコードに適用します。": "Full bandwidth centred on the selected receive frequency. Applies to receiver audio and decoding.",
     "クリック／ドラッグで受信周波数を変更。左右キーで1 Hz、Shift併用で10 Hz。ダブルクリック／Homeで17.200 kHzに戻します。": "Click or drag to tune. Left/right arrows: 1 Hz; Shift: 10 Hz. Double-click or Home: reset to 17.200 kHz.",
     "{frequency:.3f} kHz 包絡線 / 時間変化": "{frequency:.3f} kHz envelope / time",
-    "共通ライセンス全文": "Full common licence",
-    "本ソフトウェアには PS Ham-ware / AKIHABARA-GIKEN 共通ライセンスを適用します。利用条件は「共通ライセンス全文」または同梱の LICENSE.md をご確認ください。第三者ライブラリには、それぞれのライセンスが適用されます。": "This software is covered by the PS Ham-ware / AKIHABARA-GIKEN common licence. See “Full common licence” or the included LICENSE.md for the terms. Third-party libraries are covered by their respective licences."
+    "PSSAQは、Hiroshi Tanaka（JH1HST）が個人的に、世界遺産のヴァールベリ無線局（SAQ）の超長波17.2 kHzの電波（モールス）を受信することに挑戦する際に、作成したソフトウェアです。": "PSSAQ was created by Hiroshi Tanaka (JH1HST) for a personal attempt to receive 17.2 kHz VLF Morse transmissions from the World Heritage Varberg Radio Station (SAQ).",
+    "本ソフトウェアはGNU GPL v3以降（GPL-3.0-or-later）で提供します。営利・非営利を問わず利用・改変・再配布できます。配布時はGPLに従って表示を保持し、改変と日付を明示し、対応するソースと必要なビルド用スクリプト等を取得できるようにしてください。改良版の公開連絡は任意です。適用法令とGPLの定める範囲で無保証です。第三者の著作物には、それぞれのライセンスが適用されます。": "This software is provided under GNU GPL v3 or later (GPL-3.0-or-later). Commercial and non-commercial use, modification and redistribution are permitted. When distributing, retain required notices, identify modifications and dates, and provide access to Corresponding Source including required build scripts, in accordance with the GPL. Notification of improvements is voluntary. Provided without warranty, subject to the GPL and applicable law. Third-party works retain their own licenses.",
+    "GPLライセンス全文": "Full GPL license",
+    "共通方針・日英説明": "Licensing guide"
   }
 }

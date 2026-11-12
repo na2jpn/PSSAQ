@@ -4,9 +4,9 @@
 
 ## v0.93の変更
 
-- PS Ham-ware / AKIHABARA-GIKEN 共通ライセンスを適用。提供された LICENSE.md を原文のまま同梱。
-- ソースZIP・配布ZIPのルートとEXE内部へライセンス全文を収録。
-- 「PSSAQについて」に共通ライセンス案内と全文表示ボタンを追加。
+- GNU GPL v3以降（GPL-3.0-or-later）を適用。LICENSE.mdに標準GPL全文、LICENSING.mdに共通方針・日英説明を同梱。
+- ソースZIP・配布ZIPのルートとEXE内部へGPL全文と共通説明を収録。
+- 「PSSAQについて」にGPL案内・著作権者名と、全文・共通説明の表示ボタンを追加。
 - 第三者ライブラリのライセンス表記・同梱処理を保持。
 
 ## v0.92の変更
@@ -181,12 +181,21 @@ Windowsでのビルド時にも完成EXEを自動起動し、専用のWindowsア
 
 ## 著作権・ライセンス
 
-Copyright © 2026 H. Tanaka (JH1HST)  
+Copyright (c) 2026 Hiroshi Tanaka (JH1HST)
+
 PS Ham-ware / Akihabara-Giken JS1YJY
 
-本プロジェクトには **PS Ham-ware / AKIHABARA-GIKEN 共通ライセンス** を適用。
-利用条件の全文はルートの `LICENSE.md` とアプリの「PSSAQについて → 共通ライセンス全文」を参照。
-提供された日本語・英語の原文をそのまま収録し、解釈に相違がある場合は日本語版を優先する。
+本プロジェクトの当方のソフトウェア・ドキュメントには **GNU GPL v3以降（GPL-3.0-or-later）** を適用します。営利・非営利を問わず利用・改変・再配布できます。配布時はGPLに従って必要な表示を保持し、改変と日付を明示し、実行ファイルに対応するソースとビルドに必要なスクリプト等を取得できるようにしてください。改良版の公開連絡は任意です。
+
+- [GPL全文 / Full license](LICENSE.md)
+- [共通方針・日英説明 / Licensing guide](LICENSING.md)
+- 開発者 / Author: [Hiroshi Tanaka (JH1HST) / na2jpn](https://github.com/na2jpn)
+- ソースコード / Source: https://github.com/na2jpn/PSSAQ
+- 公式サイト / Website: https://2jp.org/ps/
+
+PSSAQ is licensed under **GPL-3.0-or-later**. Commercial use, modification and redistribution are permitted under the GPL. Notification is voluntary. Third-party works retain their own licenses.
+
+LICENSE.mdの英文GPL全文がライセンス条件です。LICENSING.mdの説明は追加制限を課しません。両文書をソース・配布ZIP・EXE内部に同梱し、「PSSAQについて」からオフラインで確認できます。EXEのみを差し替えるアプリ内更新でも、文書は新版EXE内部から読み込まれます。
 
 SAQ施設・関連団体の公式ソフトウェアではない。
 第三者ライブラリには、それぞれのライセンスが適用される。

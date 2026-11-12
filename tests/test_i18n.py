@@ -73,6 +73,7 @@ class LanguageTests(unittest.TestCase):
             with ZipFile(archive) as z:
                 self.assertEqual(validate_archive(z).filename, 'PSSAQ.exe')
                 self.assertEqual(z.read('LICENSE.md'),Path('LICENSE.md').read_bytes())
+                self.assertEqual(z.read('LICENSING.md'),Path('LICENSING.md').read_bytes())
                 for code in LANGUAGES:
                     data = json.loads(z.read(f'language/{code}.json').decode('utf-8'))
                     self.assertEqual(data['code'], code)
@@ -132,9 +133,12 @@ class LanguageTests(unittest.TestCase):
                     self.assertEqual(dialog.channel.itemText(0), channel)
                     dialog.deleteLater()
                     def inspect(dialog):
-                        if dialog.windowTitle()=='PS Ham-ware / AKIHABARA-GIKEN License':
+                        if dialog.windowTitle() in ('LICENSE.md — PSSAQ','LICENSING.md — PSSAQ'):
                             expected=QtGui.QTextDocument()
-                            expected.setMarkdown(license_path().read_text(encoding='utf-8-sig'))
+                            name=dialog.windowTitle().split(' — ')[0]
+                            text=license_path(name).read_text(encoding='utf-8-sig')
+                            if name=='LICENSE.md':expected.setPlainText(text)
+                            else:expected.setMarkdown(text)
                             self.assertEqual(dialog.findChild(QtWidgets.QTextBrowser).toPlainText(),expected.toPlainText())
                             self.assertEqual(dialog.parent().windowTitle(),heading)
                             return 0
@@ -146,11 +150,13 @@ class LanguageTests(unittest.TestCase):
                         self.assertFalse(icon.isNull())
                         self.assertIn('pssaq-icon', doc.toHtml().split('<h2')[0])
                         self.assertIn(attribution, body)
-                        self.assertIn('Copyright © 2026 H. Tanaka (JH1HST)', body)
+                        self.assertIn('Copyright (c) 2026 Hiroshi Tanaka (JH1HST)', body)
                         self.assertIn('PS Ham-ware / AKIHABARA-GIKEN',body)
-                        button=next(b for b in dialog.findChildren(QtWidgets.QPushButton)
-                                    if b.text()==window.tr_text('共通ライセンス全文'))
-                        button.click()
+                        self.assertIn('GPL-3.0-or-later',body)
+                        for caption in ('GPLライセンス全文','共通方針・日英説明'):
+                            button=next(b for b in dialog.findChildren(QtWidgets.QPushButton)
+                                        if b.text()==window.tr_text(caption))
+                            button.click()
                         return 0
                     with patch.object(QtWidgets.QDialog, 'exec', inspect):
                         window.about()

@@ -41,6 +41,7 @@ def package(exe: Path, output: Path):
     with ZipFile(output, 'w', compression=ZIP_DEFLATED) as z:
         z.write(exe, 'PSSAQ.exe')
         z.write('LICENSE.md', 'LICENSE.md')
+        z.write('LICENSING.md', 'LICENSING.md')
         for path in sorted(Path('language').glob('*.json')):
             z.write(path, 'language/' + path.name)
         seen = set()

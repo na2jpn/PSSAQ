@@ -1,4 +1,6 @@
-PSSAQ project materials: see the PS Ham-ware / AKIHABARA-GIKEN common licence in LICENSE.md.
+PSSAQ original software and documentation: GPL-3.0-or-later.
+Copyright (c) 2026 Hiroshi Tanaka (JH1HST).
+See LICENSE.md for the GPL text and LICENSING.md for the common licensing guide.
 The common licence does not replace the licences of third-party components.
 
 Third-party notices to verify when creating public releases:

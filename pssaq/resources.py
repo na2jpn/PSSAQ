@@ -8,6 +8,6 @@ def asset_path(name):
     return root / 'assets' / name
 
 
-def license_path():
+def license_path(name="LICENSE.md"):
     root = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent.parent))
-    return root / 'LICENSE.md'
+    return root / name

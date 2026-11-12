@@ -17,7 +17,8 @@ def run(app, report=None):
     try:
         assert sd is not None, 'Audio library failed to load: ' + AUDIO_IMPORT_ERROR
         assert asset_path('apply_update.ps1').is_file(), 'Update helper is missing'
-        assert license_path().is_file(), 'Common licence is missing'
+        assert license_path().is_file(), 'GPL licence is missing'
+        assert license_path('LICENSING.md').is_file(), 'Licensing guide is missing'
         with tempfile.TemporaryDirectory(prefix='pssaq-check-') as tmp:
             window = MainWindow(root=tmp, auto_start=False)
             window.timer.stop()

@@ -557,15 +557,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def about(self):
         html=f'''<p align="center"><img src="pssaq-icon" width="72" height="72"></p><h2>PSSAQ — SAQ 17.2 kHz Receiver</h2><p>Version {__version__}</p>
-<p>{escape(self.tr_text('PSSAQは、H. Tanaka（JH1HST）が個人的に、世界遺産のヴァールベリ無線局（SAQ）の超長波17.2 kHzの電波（モールス）を受信することに挑戦する際に、作成したソフトウェアです。'))}</p>
+<p>{escape(self.tr_text('PSSAQは、Hiroshi Tanaka（JH1HST）が個人的に、世界遺産のヴァールベリ無線局（SAQ）の超長波17.2 kHzの電波（モールス）を受信することに挑戦する際に、作成したソフトウェアです。'))}</p>
 <h3>{escape(self.tr_text('世界遺産のヴァールベリ無線局（SAQ）について'))}</h3>
 <p>{escape(self.tr_text('スウェーデン・グリメトンのヴァールベリ無線局は、1920年代に建設された長波無線通信施設で、アレキサンダーソン式高周波発電機と巨大なアンテナ施設が保存されています。2004年にユネスコ世界遺産へ登録され、記念送信では17.2 kHzのモールス信号を発信します。'))}</p>
 <p><a href="https://grimeton.org/">https://grimeton.org/</a><br><a href="https://alexander.n.se/">https://alexander.n.se/</a></p>
 <h3>{escape(self.tr_text('SAQのイラストについて'))}</h3>
 <p>{escape(self.tr_text('ARRLの掲載の写真をイラストにしたものです。'))}</p>
-<h3>{escape(self.tr_text('著作権'))}</h3><p>Copyright © 2026 H. Tanaka (JH1HST)<br>PS Ham-ware / Akihabara-Giken JS1YJY</p>
+<h3>{escape(self.tr_text('著作権'))}</h3><p>Copyright (c) 2026 Hiroshi Tanaka (JH1HST)<br>PS Ham-ware / AKIHABARA-GIKEN JS1YJY<br><a href="https://github.com/na2jpn/PSSAQ">https://github.com/na2jpn/PSSAQ</a></p>
 <h3>{escape(self.tr_text('ライセンス'))}</h3>
-<p>{escape(self.tr_text('本ソフトウェアには PS Ham-ware / AKIHABARA-GIKEN 共通ライセンスを適用します。利用条件は「共通ライセンス全文」または同梱の LICENSE.md をご確認ください。第三者ライブラリには、それぞれのライセンスが適用されます。'))}</p>
+<p>{escape(self.tr_text('本ソフトウェアはGNU GPL v3以降（GPL-3.0-or-later）で提供します。営利・非営利を問わず利用・改変・再配布できます。配布時はGPLに従って表示を保持し、改変と日付を明示し、対応するソースと必要なビルド用スクリプト等を取得できるようにしてください。改良版の公開連絡は任意です。適用法令とGPLの定める範囲で無保証です。第三者の著作物には、それぞれのライセンスが適用されます。'))}</p>
 <p>{escape(self.tr_text('Python (PSF), PySide6/Qt (LGPLなど), NumPy (BSD-3-Clause), SciPy (BSD-3-Clause), sounddevice (MIT), PyInstaller (GPL＋例外) を使用します。実際の配布時はバンドルしたバージョンの正式なライセンス本文・通知を同梱してください。'))}</p>
 <p>{escape(self.tr_text('非公式の個人製作ソフトウェアです。SAQ施設・関連団体とは提携していません。'))}</p>'''
         d=QtWidgets.QDialog(self);d.setWindowTitle(self.tr_text('PSSAQについて'));d.resize(580,540)
@@ -574,16 +574,21 @@ class MainWindow(QtWidgets.QMainWindow):
                                        QtGui.QImage(str(asset_path('pssaq.png'))))
         browser.setHtml(html);lay.addWidget(browser)
         buttons=QtWidgets.QHBoxLayout();lay.addLayout(buttons)
-        license_button=QtWidgets.QPushButton(self.tr_text('共通ライセンス全文'))
+        license_button=QtWidgets.QPushButton(self.tr_text('GPLライセンス全文'))
         license_button.clicked.connect(lambda:self.show_license(d));buttons.addWidget(license_button)
+        guide_button=QtWidgets.QPushButton(self.tr_text('共通方針・日英説明'))
+        guide_button.clicked.connect(lambda:self.show_license(d,'LICENSING.md'));buttons.addWidget(guide_button)
         buttons.addStretch()
         b=QtWidgets.QPushButton(self.tr_text('閉じる'));b.clicked.connect(d.accept);buttons.addWidget(b);d.exec()
 
-    def show_license(self,parent=None):
+    def show_license(self,parent=None,name="LICENSE.md"):
         dialog=QtWidgets.QDialog(parent or self)
-        dialog.setWindowTitle('PS Ham-ware / AKIHABARA-GIKEN License');dialog.resize(700,600)
+        dialog.setWindowTitle(name+' — PSSAQ');dialog.resize(700,600)
         layout=QtWidgets.QVBoxLayout(dialog);browser=QtWidgets.QTextBrowser()
-        browser.setMarkdown(license_path().read_text(encoding='utf-8-sig'));layout.addWidget(browser)
+        text=license_path(name).read_text(encoding='utf-8-sig')
+        if name=='LICENSE.md':browser.setPlainText(text)
+        else:browser.setMarkdown(text)
+        layout.addWidget(browser)
         close=QtWidgets.QPushButton(self.tr_text('閉じる'));close.clicked.connect(dialog.accept)
         layout.addWidget(close);dialog.exec()
 
