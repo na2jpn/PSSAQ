@@ -225,7 +225,11 @@ class MainWindow(QtWidgets.QMainWindow):
         fm.addAction('recdataフォルダーを開く',lambda:self.open_dir(self.root/'recdata'))
         fm.addSeparator();fm.addAction('終了',self.close)
         sm=self.menuBar().addMenu('設定');sm.addAction('Audio IN / Audio OUT 設定',self.audio_settings)
-        hm=self.menuBar().addMenu('ヘルプ');self.help_menu=hm;hm.addAction('バージョンアップ（ZIP指定）',self.update_zip);hm.addSeparator();hm.addAction('PSSAQについて',self.about)
+        hm=self.menuBar().addMenu('ヘルプ');self.help_menu=hm
+        hm.addAction('バージョンアップ（ZIP指定）',self.update_zip);hm.addSeparator()
+        hm.addAction('ライセンス',self.show_licenses)
+        hm.addAction('更新履歴',self.show_history);hm.addSeparator()
+        hm.addAction('PSSAQについて',self.about)
         central=ReceiverBackground();self.setCentralWidget(central)
         outer=QtWidgets.QVBoxLayout(central);outer.setContentsMargins(14,12,14,12);outer.setSpacing(10)
         top=QtWidgets.QHBoxLayout();outer.addWidget(control_band(top,hero=True))
@@ -565,8 +569,7 @@ class MainWindow(QtWidgets.QMainWindow):
 <p>{escape(self.tr_text('ARRLの掲載の写真をイラストにしたものです。'))}</p>
 <h3>{escape(self.tr_text('著作権'))}</h3><p>Copyright (c) 2026 Hiroshi Tanaka (JH1HST)<br>PS Ham-ware / AKIHABARA-GIKEN JS1YJY<br><a href="https://github.com/na2jpn/PSSAQ">https://github.com/na2jpn/PSSAQ</a></p>
 <h3>{escape(self.tr_text('ライセンス'))}</h3>
-<p>{escape(self.tr_text('本ソフトウェアはGNU GPL v3以降（GPL-3.0-or-later）で提供します。営利・非営利を問わず利用・改変・再配布できます。配布時はGPLに従って表示を保持し、改変と日付を明示し、対応するソースと必要なビルド用スクリプト等を取得できるようにしてください。改良版の公開連絡は任意です。適用法令とGPLの定める範囲で無保証です。第三者の著作物には、それぞれのライセンスが適用されます。'))}</p>
-<p>{escape(self.tr_text('Python (PSF), PySide6/Qt (LGPLなど), NumPy (BSD-3-Clause), SciPy (BSD-3-Clause), sounddevice (MIT), PyInstaller (GPL＋例外) を使用します。実際の配布時はバンドルしたバージョンの正式なライセンス本文・通知を同梱してください。'))}</p>
+<p>{escape(self.tr_text('本ソフトウェアはGNU GPL v3以降（GPL-3.0-or-later）で提供します。ライセンス全文・共通方針・第三者ライブラリの表記は、ヘルプの「ライセンス」で確認できます。'))}</p>
 <p>{escape(self.tr_text('非公式の個人製作ソフトウェアです。SAQ施設・関連団体とは提携していません。'))}</p>'''
         d=QtWidgets.QDialog(self);d.setWindowTitle(self.tr_text('PSSAQについて'));d.resize(580,540)
         lay=QtWidgets.QVBoxLayout(d);browser=QtWidgets.QTextBrowser();browser.setOpenExternalLinks(True)
@@ -574,21 +577,38 @@ class MainWindow(QtWidgets.QMainWindow):
                                        QtGui.QImage(str(asset_path('pssaq.png'))))
         browser.setHtml(html);lay.addWidget(browser)
         buttons=QtWidgets.QHBoxLayout();lay.addLayout(buttons)
-        license_button=QtWidgets.QPushButton(self.tr_text('GPLライセンス全文'))
-        license_button.clicked.connect(lambda:self.show_license(d));buttons.addWidget(license_button)
-        guide_button=QtWidgets.QPushButton(self.tr_text('共通方針・日英説明'))
-        guide_button.clicked.connect(lambda:self.show_license(d,'LICENSING.md'));buttons.addWidget(guide_button)
+        license_button=QtWidgets.QPushButton(self.tr_text('ライセンス'))
+        license_button.clicked.connect(lambda:self.show_licenses(d));buttons.addWidget(license_button)
         buttons.addStretch()
         b=QtWidgets.QPushButton(self.tr_text('閉じる'));b.clicked.connect(d.accept);buttons.addWidget(b);d.exec()
 
-    def show_license(self,parent=None,name="LICENSE.md"):
+    def show_licenses(self,parent=None):
         dialog=QtWidgets.QDialog(parent or self)
-        dialog.setWindowTitle(name+' — PSSAQ');dialog.resize(700,600)
-        layout=QtWidgets.QVBoxLayout(dialog);browser=QtWidgets.QTextBrowser()
-        text=license_path(name).read_text(encoding='utf-8-sig')
-        if name=='LICENSE.md':browser.setPlainText(text)
-        else:browser.setMarkdown(text)
-        layout.addWidget(browser)
+        dialog.setWindowTitle(self.tr_text('ライセンス')+' — PSSAQ');dialog.resize(760,620)
+        layout=QtWidgets.QVBoxLayout(dialog);tabs=QtWidgets.QTabWidget(dialog)
+        for name,caption in (('LICENSE.md','GPLライセンス全文'),
+                             ('LICENSING.md','共通方針・日英説明'),
+                             ('licenses/NOTICE.txt','第三者ライブラリ')):
+            browser=QtWidgets.QTextBrowser(tabs);browser.setOpenExternalLinks(True)
+            text=license_path(name).read_text(encoding='utf-8-sig')
+            if name=='LICENSING.md':browser.setMarkdown(text)
+            else:browser.setPlainText(text)
+            tabs.addTab(browser,self.tr_text(caption))
+        layout.addWidget(tabs)
+        close=QtWidgets.QPushButton(self.tr_text('閉じる'));close.clicked.connect(dialog.accept)
+        layout.addWidget(close);dialog.exec()
+
+    def show_history(self):
+        from .history import RELEASES
+        dialog=QtWidgets.QDialog(self);dialog.setWindowTitle(self.tr_text('更新履歴')+' — PSSAQ')
+        dialog.resize(640,500);layout=QtWidgets.QVBoxLayout(dialog)
+        browser=QtWidgets.QTextBrowser(dialog)
+        html=[]
+        for version,date,entries in RELEASES:
+            html.append(f'<h3>v{version}'+(f' ({date})' if date else '')+'</h3><ul>')
+            html.extend('<li>'+escape(self.tr_text(entry))+'</li>' for entry in entries)
+            html.append('</ul>')
+        browser.setHtml(''.join(html));layout.addWidget(browser)
         close=QtWidgets.QPushButton(self.tr_text('閉じる'));close.clicked.connect(dialog.accept)
         layout.addWidget(close);dialog.exec()
 

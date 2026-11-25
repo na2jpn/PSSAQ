@@ -133,13 +133,15 @@ class LanguageTests(unittest.TestCase):
                     self.assertEqual(dialog.channel.itemText(0), channel)
                     dialog.deleteLater()
                     def inspect(dialog):
-                        if dialog.windowTitle() in ('LICENSE.md — PSSAQ','LICENSING.md — PSSAQ'):
-                            expected=QtGui.QTextDocument()
-                            name=dialog.windowTitle().split(' — ')[0]
-                            text=license_path(name).read_text(encoding='utf-8-sig')
-                            if name=='LICENSE.md':expected.setPlainText(text)
-                            else:expected.setMarkdown(text)
-                            self.assertEqual(dialog.findChild(QtWidgets.QTextBrowser).toPlainText(),expected.toPlainText())
+                        if dialog.windowTitle() == window.tr_text('ライセンス')+' — PSSAQ':
+                            tabs=dialog.findChild(QtWidgets.QTabWidget)
+                            self.assertEqual(tabs.count(),3)
+                            for index,name in enumerate(('LICENSE.md','LICENSING.md','licenses/NOTICE.txt')):
+                                expected=QtGui.QTextDocument()
+                                text=license_path(name).read_text(encoding='utf-8-sig')
+                                if name=='LICENSING.md':expected.setMarkdown(text)
+                                else:expected.setPlainText(text)
+                                self.assertEqual(tabs.widget(index).toPlainText(),expected.toPlainText())
                             self.assertEqual(dialog.parent().windowTitle(),heading)
                             return 0
                         self.assertEqual(dialog.windowTitle(), heading)
@@ -153,7 +155,7 @@ class LanguageTests(unittest.TestCase):
                         self.assertIn('Copyright (c) 2026 Hiroshi Tanaka (JH1HST)', body)
                         self.assertIn('PS Ham-ware / AKIHABARA-GIKEN',body)
                         self.assertIn('GPL-3.0-or-later',body)
-                        for caption in ('GPLライセンス全文','共通方針・日英説明'):
+                        for caption in ('ライセンス',):
                             button=next(b for b in dialog.findChildren(QtWidgets.QPushButton)
                                         if b.text()==window.tr_text(caption))
                             button.click()

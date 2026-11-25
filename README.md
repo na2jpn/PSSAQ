@@ -1,6 +1,13 @@
-# PSSAQ v0.93 — SAQ 17.2 kHz Receiver
+# PSSAQ v0.94 — SAQ 17.2 kHz Receiver
 
 自作17.2 kHz受信機のAUDIO OUTをPCの録音入力へ接続して使用するWindows用ソフト。
+
+## v0.94の変更
+
+- Windows版の実行ファイルに、コードサイニング証明書によるデジタル署名を追加しました。
+
+「ヘルプ → ライセンス」でGPL全文・共通説明・第三者ライブラリを確認できます。
+「PSSAQについて」のアイコン・作者・出典表示を維持し、「ヘルプ → 更新履歴」を追加しました。
 
 ## v0.93の変更
 
@@ -94,26 +101,53 @@ UTF-8（BOMありも可）のJSON形式。`strings` 内の値が翻訳文、キ�
 Python 3.11/3.12推奨。ソースZIPを新しいフォルダーへ展開し、そのフォルダーでPowerShellを開く。
 
 ```powershell
-.\build-windows.ps1
+.\windows.ps1
 ```
 
 実行ポリシーでブロックされる場合：
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\build-windows.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\windows.ps1
 ```
 
-依存導入 → テスト → ビルド → 完成EXEの起動検査 → 配布ZIP作成を順に実行。
-生成先は `release/PSSAQ.exe` と **`release/pssaq_v0.93.zip`**。
+依存導入 → テスト → ビルド → 完成EXEの起動検査 → デジタル署名・検証 → 配布ZIP作成を順に実行。
+通常はWindows証明書ストアのコードサイニング証明書を使い、SHA-256とRFC 3161タイムスタンプを付けます。
+既定のタイムスタンプURLは、DigiCertの公式指定 `http://timestamp.digicert.com` です。HTTPSを指定すると一部のSignToolで `Invalid Timestamp URL` となるため、HTTPを使用します。
+署名・タイムスタンプ・検証に失敗した場合はZIPを作成しません。Windows SDKのSignToolが必要です。
+証明書の秘密鍵やPINをソースや配布物へ保存しません。トークン等の認証画面が出た場合はそこで入力してください。
+
+証明書を明示する場合：
+
+```powershell
+.\windows.ps1 -Sign -CertificateThumbprint '証明書の40桁の拇印'
+```
+
+`PSSAQ_SIGN_CERT_THUMBPRINT`、`PSSAQ_SIGNTOOL`、`PSSAQ_TIMESTAMP_URL` でも設定できます。
+必要に応じて `-SignToolPath`、`-TimestampUrl`、`-MachineCertificateStore` を指定できます。
+署名しない開発用ビルドは明示的に `.\windows.ps1 -NoSign` を実行します。
+従来の `build-windows.ps1` も同じ引数で `windows.ps1` を呼び出します。
+
+EXEのビルドと起動検査が成功し、署名だけが失敗した場合は、ソースのルートで署名・検証から再開できます。
+次の手順は再ビルドを行わず、署名と検証が成功した場合だけZIPを作成します。
+
+```powershell
+.\.venv\Scripts\python.exe scripts\windows_signing.py --timestamp-url http://timestamp.digicert.com release\PSSAQ.exe
+if ($LASTEXITCODE -eq 0) {
+    .\.venv\Scripts\python.exe scripts\package_release.py --version 0.94 --exe release\PSSAQ.exe --output release\pssaq_v0.94.zip
+}
+```
+
+証明書の拇印を指定する場合は、署名コマンドに `--certificate-thumbprint '40桁の拇印'` を追加します。
+生成先は `release/PSSAQ.exe` と **`release/pssaq_v0.94.zip`**。
 `PSSAQ.spec` を使うこと。SciPyの動的読み込み対策、アイコン、背景、言語ファイル、更新スクリプトを同梱する。
 EXE横にconfig、recdata、masterdata、languageを作るため、書き込み可能な場所へ置く。
 
 ## ZIP更新
 
-1. v0.6/0.7/0.8/0.9/0.91/0.92の「ヘルプ → バージョンアップ（ZIP指定）」から、ビルド後の
-   **`release/pssaq_v0.93.zip`** を選択。`PSSAQ_0.93_SOURCE.zip` はソース用。
+1. v0.6以降の「ヘルプ → バージョンアップ（ZIP指定）」から、ビルド後の
+   **`release/pssaq_v0.94.zip`** を選択。`PSSAQ_0.94_SOURCE.zip` はソース用。
 2. 更新ウィンドウで新EXEの起動検査が完了するまで待つ。
-3. 再起動後、タイトルが `PSSAQ 0.93` で、LanguageとBW/NRがあることを確認。
+3. 再起動後、タイトルが `PSSAQ 0.94` で、LanguageとBW/NRがあることを確認。
 
 v0.6/0.7側の旧更新処理は今回の移行時に `.bak` を作るが、新しいv0.8の通常起動時に削除する。
 v0.8以降の更新処理は、起動検査に通ったEXEへバックアップなしで原子的に置き換える。
@@ -151,7 +185,7 @@ CWデコードは微弱信号や雑音環境では誤判定する。
 python -m unittest discover -v
 ```
 
-v0.93では51件の単体・GUI統合テストを実施。
+v0.94では57件の単体・GUI統合テストが成功しました。CP932を既定とするPath読み書きの模擬条件でも57件が成功しています。
 3言語、BWの近接信号減衰、NRの模擬CWに対する効果と連続処理、原音録音、設定復元、
 更新の準備・独立起動環境、旧バックアップの限定削除を検証。
 チェック欄の描画・マウス/キーボード操作、ミュート初期値と一度だけの移行、安定したICO保存先も検証。
@@ -161,8 +195,11 @@ Aboutとアプリのアイコン一致、旧管理ICOの限定削除も検証。
 ビルド済みアプリの起動検査は、言語・画像・更新スクリプト・DSP・BW・NR・録音・確認音を確認する。
 作成環境はLinuxであり、Windows PowerShellによる実際のEXE置換、Windowsタスクバーの実表示と音声機器の入出力は未実行。
 Windowsでのビルド時にも完成EXEを自動起動し、専用のWindowsアイコン検査も実行する。
+Linuxでビルドした実行ファイルの起動・同梱文書・DSP検査が成功しています。署名コマンドと失敗時の動作は模擬検証済みですが、Windows実機での証明書による署名は未実施です。
 
 ## 主な更新履歴
+
+- v0.94：Windows版の実行ファイルに、コードサイニング証明書によるデジタル署名を追加しました。
 
 - v0.93：PS Ham-ware / AKIHABARA-GIKEN 共通ライセンス同梱・全文表示。
 
@@ -195,7 +232,7 @@ PS Ham-ware / Akihabara-Giken JS1YJY
 
 PSSAQ is licensed under **GPL-3.0-or-later**. Commercial use, modification and redistribution are permitted under the GPL. Notification is voluntary. Third-party works retain their own licenses.
 
-LICENSE.mdの英文GPL全文がライセンス条件です。LICENSING.mdの説明は追加制限を課しません。両文書をソース・配布ZIP・EXE内部に同梱し、「PSSAQについて」からオフラインで確認できます。EXEのみを差し替えるアプリ内更新でも、文書は新版EXE内部から読み込まれます。
+LICENSE.mdの英文GPL全文がライセンス条件です。LICENSING.mdの説明は追加制限を課しません。両文書をソース・配布ZIP・EXE内部に同梱し、「ヘルプ → ライセンス」からオフラインで確認できます。EXEのみを差し替えるアプリ内更新でも、文書は新版EXE内部から読み込まれます。
 
 SAQ施設・関連団体の公式ソフトウェアではない。
 第三者ライブラリには、それぞれのライセンスが適用される。

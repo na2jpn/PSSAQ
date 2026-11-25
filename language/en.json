@@ -83,6 +83,20 @@
     "PSSAQは、Hiroshi Tanaka（JH1HST）が個人的に、世界遺産のヴァールベリ無線局（SAQ）の超長波17.2 kHzの電波（モールス）を受信することに挑戦する際に、作成したソフトウェアです。": "PSSAQ was created by Hiroshi Tanaka (JH1HST) for a personal attempt to receive 17.2 kHz VLF Morse transmissions from the World Heritage Varberg Radio Station (SAQ).",
     "本ソフトウェアはGNU GPL v3以降（GPL-3.0-or-later）で提供します。営利・非営利を問わず利用・改変・再配布できます。配布時はGPLに従って表示を保持し、改変と日付を明示し、対応するソースと必要なビルド用スクリプト等を取得できるようにしてください。改良版の公開連絡は任意です。適用法令とGPLの定める範囲で無保証です。第三者の著作物には、それぞれのライセンスが適用されます。": "This software is provided under GNU GPL v3 or later (GPL-3.0-or-later). Commercial and non-commercial use, modification and redistribution are permitted. When distributing, retain required notices, identify modifications and dates, and provide access to Corresponding Source including required build scripts, in accordance with the GPL. Notification of improvements is voluntary. Provided without warranty, subject to the GPL and applicable law. Third-party works retain their own licenses.",
     "GPLライセンス全文": "Full GPL license",
-    "共通方針・日英説明": "Licensing guide"
+    "共通方針・日英説明": "Licensing guide",
+    "更新履歴": "Release history",
+    "第三者ライブラリ": "Third-party libraries",
+    "本ソフトウェアはGNU GPL v3以降（GPL-3.0-or-later）で提供します。ライセンス全文・共通方針・第三者ライブラリの表記は、ヘルプの「ライセンス」で確認できます。": "This software is licensed under GNU GPL version 3 or later (GPL-3.0-or-later). The full license, licensing guide and third-party notices are available under Help → License.",
+    "Windows版の実行ファイルに、コードサイニング証明書によるデジタル署名を追加しました。": "Added a digital signature using a code signing certificate to the Windows executable.",
+    "GPL-3.0-or-laterを適用し、ライセンス全文と共通説明を同梱しました。": "Adopted GPL-3.0-or-later and included the full license and licensing guide.",
+    "Languageとヘルプのメニュー順を変更しました。": "Changed the order of the Language and Help menus.",
+    "正式アイコンに変更し、FFTから受信周波数を調整できるようにしました。": "Updated the application icon and added receiver tuning from the FFT display.",
+    "チェック欄を見やすくし、ミュートの初期値とタスクバーのアイコン表示を改善しました。": "Improved checkbox visibility, the default mute setting and the taskbar icon.",
+    "BW・NRとAboutのアイコンを追加し、更新時のEXEバックアップを廃止しました。": "Added BW, NR and an About icon; removed EXE backups during updates.",
+    "日本語・英語・ロシア語の切り替えに対応しました。": "Added switching between Japanese, English and Russian.",
+    "ZIP更新後の再起動と起動検査を改善しました。": "Improved restart and startup checks after ZIP updates.",
+    "SAQの背景イラストと出典表記を追加しました。": "Added the SAQ background illustration and source attribution.",
+    "OUT音量変更時の確認音と出力テストを追加しました。": "Added a confirmation chime for output volume changes and an output test.",
+    "起動時の同梱漏れを修正し、アイコンと起動検査を追加しました。": "Fixed missing startup dependencies and added icons and startup checks."
   }
 }

@@ -19,6 +19,7 @@ def run(app, report=None):
         assert asset_path('apply_update.ps1').is_file(), 'Update helper is missing'
         assert license_path().is_file(), 'GPL licence is missing'
         assert license_path('LICENSING.md').is_file(), 'Licensing guide is missing'
+        assert license_path('licenses/NOTICE.txt').is_file(), 'Third-party notices are missing'
         with tempfile.TemporaryDirectory(prefix='pssaq-check-') as tmp:
             window = MainWindow(root=tmp, auto_start=False)
             window.timer.stop()
